@@ -6,7 +6,6 @@ d3.player.js
 [D3.js](http://d3js.org) is awesome.
 It gives you the power to easily visualize data in amazing ways.
 Unfortunately there's no way to pause the global state of the transitions.
-
 With d3.player.js, you can pause and resume transitions in D3!
 
 
