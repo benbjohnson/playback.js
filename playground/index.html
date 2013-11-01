@@ -6,15 +6,19 @@
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="../d3.player.js" charset="utf-8"></script>
 </head>
 
 <body>
 	<header>
 		<div class="container">
 			<h1>The Playground</h1>
-			<button id="play">Play</button>
-			<button id="pause">Pause</button>
-			<button id="stop">Stop</button>
+			<button id="play" type="button" class="btn btn-default">
+				<span class="glyphicon glyphicon-play"></span>
+			</button>
+			<button id="pause" type="button" class="btn btn-default">
+				<span class="glyphicon glyphicon-pause"></span>
+			</button>
 		</div>
 	</header>
 
@@ -31,13 +35,11 @@
 			.attr("width", 500)
 			.attr("height", 500)
 		var g = svg.append("g");
-		var delay = 0;
+		var player = d3.player();
 
-		function refresh() {
+		player.refresh(function() {
 			svg.selectAll("circle").data(data)
 				.call(function() {
-					console.log(delay);
-
 					var enter = this.enter(), exit = this.exit();
 					enter.append("circle")
 						.attr("r", "25")
@@ -46,15 +48,12 @@
 						.style("fill", "steelblue")
 					;
 					this.transition()
-						.duration(60000)
-						.delay(delay)
+						.duration(10000)
 						.ease("linear")
 						.attr("cx", 400)
 				})
 			;
-		}
-
-		refresh();
+		})
 
 	</script>
 
@@ -69,10 +68,6 @@
 			// debugger;
 		})
 
-		$(document).on("click", "#stop", function() {
-			var circle = d3.select("circle");
-			debugger;
-		})
 	</script>
 </body>
 </html>

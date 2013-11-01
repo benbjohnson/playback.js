@@ -9,10 +9,24 @@ describe('Player', function(){
     player = new Player();
   });
 
-  describe('#initialize()', function(){
-    it('should be initialized', function(){
-      player.initialize();
-      assert(player.initialized == true);
+  describe('#refresh()', function(){
+    it('should set the refresh function and call it', function(){
+      var spy = sinon.spy();
+      player.refresh(spy);
+      assert(spy.called)
+    });
+
+    it('should execute refresh function when called', function(){
+      var spy = sinon.spy();
+      player.refresh(spy);
+      spy.reset()
+      assert(!spy.called)
+      player.refresh();
+      assert(spy.called)
+    });
+
+    it('should do nothing when refresh is not set', function(){
+      player.refresh();
     });
   });
 });

@@ -200,13 +200,13 @@ require.register("d3.player/lib/index.js", function(exports, require, module){
 
 "use strict";
 /*jslint browser: true, nomen: true*/
+/*global d3*/
 
-var Player = require('./Player'),
-    bind = require('bind');
+var Player = require('./player');
 
-module.exports = new Player();
-
-bind(module.exports, module.exports.initialize);
+d3.player = function() {
+    return new Player();
+}
 
 });
 require.register("d3.player/lib/player.js", function(exports, require, module){
@@ -220,6 +220,13 @@ function Player() {
 
 Player.prototype.initialize = function (options) {
     this.initialized = true;
+};
+
+/**
+ * Sets or runs the refresh function.
+ */
+Player.prototype.refresh = function (fn) {
+    fn();
 };
 
 
