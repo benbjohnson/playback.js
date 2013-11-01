@@ -1,0 +1,23 @@
+{
+  "name": "d3.player",
+  "repo": "benbjohnson/d3.player.js",
+  "description": "A player to control playback rate of D3.js visualizations",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+  },
+  "development": {
+    "component/assert": "*",
+    "jkroso/equals": "*",
+    "visionmedia/mocha": "*",
+    "visionmedia/mocha-cloud": "*",
+    "visionmedia/mocha-matrix": "*"
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "scripts": [
+    "lib/index.js",
+    "lib/player.js"
+  ],
+  "remotes": []
+}
