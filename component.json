@@ -5,7 +5,8 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "ianstormtaylor/is": "0.0.5"
+    "ianstormtaylor/is": "0.0.5",
+    "timoxley/next-tick": "0.0.2"
   },
   "development": {
     "component/assert": "*",
