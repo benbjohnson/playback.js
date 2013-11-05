@@ -35,7 +35,7 @@
 			.attr("width", 500)
 			.attr("height", 500)
 		var g = svg.append("g");
-		var player = d3.player();
+		var player = d3.player("circle");
 
 		player.refresh(function() {
 			svg.selectAll("circle").data(data)
@@ -53,8 +53,7 @@
 						.attr("cx", 400)
 				})
 			;
-		})
-
+		});
 	</script>
 
 	<script>
