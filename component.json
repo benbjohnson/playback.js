@@ -6,6 +6,7 @@
   "keywords": [],
   "dependencies": {
     "ianstormtaylor/is": "0.0.5",
+    "juliangruber/periodic": "0.0.2",
     "timoxley/next-tick": "0.0.2"
   },
   "development": {
@@ -19,6 +20,7 @@
   "main": "lib/index.js",
   "scripts": [
     "lib/index.js",
+    "lib/frame.js",
     "lib/playback.js",
     "lib/player.js"
   ],

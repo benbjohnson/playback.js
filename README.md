@@ -23,13 +23,13 @@ The player maintains its own playhead that can move independent of the wall cloc
 
 The player maintains an internal timeline that moves in relation to the wall clock based on the playback rate.
 
-* `player.rate()` - The playback rate.
+* `player.rate(value)` - The playback rate.
 
 * `player.pause()` - Sets the playback rate to `0`.
 
 * `player.play()` - Sets the playback rate to `1`.
 
-* `player.playing()` - Checks whether the playback rate is non-`0`.
+* `player.playing()` - Returns a boolean for whether the playback rate is non-`0`.
 
 
 ### Frame Control
