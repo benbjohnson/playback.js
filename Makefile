@@ -10,9 +10,9 @@ build: components lib/*.js
 components: component.json
 	@component install --dev
 
-d3.player.js: components lib/*.js
-	$(COMPONENT) build --standalone d3.player --out . --name d3.player
-	$(UGLIFY) d3.player.js --output d3.player.min.js
+playback.js: components lib/*.js
+	$(COMPONENT) build --standalone playback --out . --name playback
+	$(UGLIFY) playback.js --output playback.min.js
 
 test: lint build
 	$(PHANTOM) test/index.html

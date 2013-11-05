@@ -1,80 +1,58 @@
-d3.player.js
+Playback.js
 ============
 
 ## Overview
 
-[D3.js](http://d3js.org) is awesome.
-It gives you the power to easily visualize data in amazing ways.
-Unfortunately there's no way to pause the global state of the transitions.
-With d3.player.js, you can pause and resume transitions in D3!
+TODO
 
 
 ## Usage
 
-To use the player, you need to do a few things:
+To use Playback.js, simply create a new player to manage your timeline:
 
-1. Create an instance of d3.player.
+```js
+var player = playback.player()
+```
 
-2. Use the player to wrap your update code.
-
-3. Tag elements which will be managed by the player by adding the `resumable` class.
-
-Then you can use the player API to control the transition state of the nodes.
+The player maintains its own playhead that can move independent of the wall clock.
 
 
 ## API
 
-The following API is available on the player object:
+### Timeline Control
 
-* `player.pause()` - Pauses all transitions on all player-managed elements.
+The player maintains an internal timeline that moves in relation to the wall clock based on the playback rate.
 
-* `player.play()` - Resumes all transitions on all player-managed elements.
+* `player.rate()` - The playback rate.
 
-* `player.playing()` - Checks whether transitions are currently allowed to play.
+* `player.pause()` - Sets the playback rate to `0`.
+
+* `player.play()` - Sets the playback rate to `1`.
+
+* `player.playing()` - Checks whether the playback rate is non-`0`.
 
 
-## Example
+### Frame Control
 
-```js
-var player = d3.player();
-var data = [{name:"john"}, {name:"mary"}]
-var svg = d3.select("svg");
+Playback is separated into individual sections called frames.
+A frame is basically a section of your timeline.
+For example, if you're doing a presentation then each frame might be a slide.
 
-player(function {
-    svg.selectAll("myNode").data(data)
-        .call(function() {
-            var enter = this.enter(), exit = this.exit();
-            enter.append("text")
-                .attr("class", "resumable")
-                .attr("x", 0)
-                .attr("y", 0)
-                .text(function(d) { return d.name })
-            ;
-            
-            this.transition()
-                .attr("x", Math.random() * 500)
-                .attr("y", Math.random() * 500)
-            ;
-        })
-    ;
-});
+* `player.next()` - Moves to the next frame.
 
-// Play button starts the transitions.
-$(document).on("click", "#play-button", function() {
-    player.play();
-});
+* `player.prev()` - Moves to the previous frame.
 
-// Pause button stops the transitions.
-$(document).on("click", "#pause-button", function() {
-    player.pause();
-});
 
-// Or make a play/pause toggle button.
-$(document).on("click", "#toggle-button", function() {
-    if player.playing() {
-        player.pause();
-    } else {
-        player.play();
-    }
-});
-```
+### Data
+
+The timeline is record as it is generated so it's important to know the state of the timeline as it previously occurred.
+To do this, you must use Playback data objects.
+The values of properties on the playback data objects:
+
+* `player.map()` - Creates a new key/value data object.
+
+* `player.array()` - Creates a new array data object.
+
+
+
+

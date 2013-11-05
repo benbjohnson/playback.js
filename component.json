@@ -1,7 +1,7 @@
 {
-  "name": "d3.player",
-  "repo": "benbjohnson/d3.player.js",
-  "description": "A player to control playback rate of D3.js visualizations",
+  "name": "playback",
+  "repo": "benbjohnson/playback.js",
+  "description": "A library for dynamic timeline playback",
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
@@ -19,6 +19,7 @@
   "main": "lib/index.js",
   "scripts": [
     "lib/index.js",
+    "lib/playback.js",
     "lib/player.js"
   ],
   "remotes": []

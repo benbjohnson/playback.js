@@ -1,15 +1,15 @@
 {
-  "name": "d3.player.js",
+  "name": "playback.js",
   "version": "0.0.1",
   "author": "Ben Johnson <benbjohnson@yahoo.com>",
-  "description": "A player to control playback rate of D3.js visualizations",
+  "description": "A library for dynamic timeline playback",
   "license": "MIT",
-  "url": "https://github.com/benbjohnson/d3.player.js",
+  "url": "https://github.com/benbjohnson/playback.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/benbjohnson/d3.player.js.git"
+    "url": "git://github.com/benbjohnson/playback.js.git"
   },
-  "main": "d3.player.js",
+  "main": "playback.js",
   "dependencies": {},
   "devDependencies": {
     "component": "0.17.0",

@@ -6,7 +6,7 @@
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-	<script src="../d3.player.js" charset="utf-8"></script>
+	<script src="../build/build.js" charset="utf-8"></script>
 </head>
 
 <body>
@@ -35,25 +35,22 @@
 			.attr("width", 500)
 			.attr("height", 500)
 		var g = svg.append("g");
-		var player = d3.player("circle");
 
-		player.refresh(function() {
-			svg.selectAll("circle").data(data)
-				.call(function() {
-					var enter = this.enter(), exit = this.exit();
-					enter.append("circle")
-						.attr("r", "25")
-						.attr("cx", "50")
-						.attr("cy", "50")
-						.style("fill", "steelblue")
-					;
-					this.transition()
-						.duration(10000)
-						.ease("linear")
-						.attr("cx", 400)
-				})
-			;
-		});
+		svg.selectAll("circle").data(data)
+			.call(function() {
+				var enter = this.enter(), exit = this.exit();
+				enter.append("circle")
+					.attr("r", "25")
+					.attr("cx", "50")
+					.attr("cy", "50")
+					.style("fill", "steelblue")
+				;
+				this.transition()
+					.duration(10000)
+					.ease("linear")
+					.attr("cx", 400)
+			})
+		;
 	</script>
 
 	<script>
@@ -61,10 +58,6 @@
 		})
 
 		$(document).on("click", "#pause", function() {
-			var circle = d3.select("circle");
-			circle[0][0].__transition__.active = 0;
-			// console.log(circle[0][0].__transition__[1].delay);
-			// debugger;
 		})
 
 	</script>
