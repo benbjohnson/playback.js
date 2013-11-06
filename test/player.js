@@ -43,4 +43,24 @@ describe('Player', function(){
       assert(!player.playing());
     });
   });
+
+  describe('#frame()', function(){
+    it('should append a new frame', function(){
+      player.frame(function() {});
+      assert(player.frames().length == 1);
+    });
+
+    it('should execute function argument', function(done){
+      player.frame(function() {
+        done();
+      });
+    });
+
+    it('should pass frame to function', function(){
+      player.frame(function(frame) {
+        assert(this == player.frames()[0]);
+        assert(frame == player.frames()[0]);
+      });
+    });
+  });
 });
