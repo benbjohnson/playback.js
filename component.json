@@ -22,7 +22,8 @@
     "lib/index.js",
     "lib/frame.js",
     "lib/playback.js",
-    "lib/player.js"
+    "lib/player.js",
+    "lib/timer.js"
   ],
   "remotes": []
 }
