@@ -10,6 +10,18 @@ describe('Player', function(){
     player = new Player();
   });
 
+  describe('#rate()', function(){
+    it('should set the rate', function(){
+      player.rate(0.5);
+      assert(player.rate() == 0.5);
+    });
+
+    it('should not allow negative rates', function(){
+      player.rate(-1);
+      assert(player.rate() == 0);
+    });
+  });
+
   describe('#play()', function(){
     beforeEach(function() {
       player.pause();
