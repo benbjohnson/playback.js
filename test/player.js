@@ -63,4 +63,54 @@ describe('Player', function(){
       });
     });
   });
+
+  describe('#current()', function(){
+    it('should retrieve current frame', function(){
+      player.frame(function() {});
+      assert(player.current() == player.frames()[0]);
+    });
+
+    it('should return null if there are no frames', function(){
+      assert(player.current() === null);
+    });
+  });
+
+  describe('#next()', function(){
+    it('should move to the next frame', function(){
+      player.frame(function() {});
+      player.frame(function() {});
+      assert(player.next() == true);
+      assert(player.current() == player.frames()[1]);
+    });
+
+    it('should not move past the last frame', function(){
+      player.frame(function() {});
+      assert(player.next() == false);
+      assert(player.current() == player.frames()[0]);
+    });
+
+    it('should do nothing if there are no frames', function(){
+      assert(player.next() == false);
+    });
+  });
+
+  describe('#prev()', function(){
+    it('should move to the previous frame', function(){
+      player.frame(function() {});
+      player.frame(function() {});
+      assert(player.next() == true);
+      assert(player.prev() == true);
+      assert(player.current() == player.frames()[0]);
+    });
+
+    it('should not move before the first frame', function(){
+      player.frame(function() {});
+      assert(player.prev() == false);
+      assert(player.current() == player.frames()[0]);
+    });
+
+    it('should do nothing if there are no frames', function(){
+      assert(player.prev() == false);
+    });
+  });
 });
