@@ -113,4 +113,15 @@ describe('Player', function(){
       assert(player.prev() == false);
     });
   });
+
+  describe('#tick()', function(){
+    it('should move the playhead', function(done){
+      player.frame(function() {});
+      player.play();
+      setTimeout(function() {
+        assert(Math.abs(player.current().playhead() - 300) < 10);
+        done();
+      }, 310);
+    });
+  });
 });
