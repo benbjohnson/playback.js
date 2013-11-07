@@ -21,6 +21,45 @@ describe('Frame', function(){
       frame.playhead(150);
       assert(frame.duration() == 200);
     });
+
+    it('should execute timers between playhead changes', function(){
+      var log = [];
+      frame.timer(function() { log.push([0, frame.playhead()].join(":"))}, 50, 100);
+      frame.playhead(100);
+      frame.timer(function() { log.push([1, frame.playhead()].join(":"))}, 40, 0);
+      frame.timer(function() { log.push([2, frame.playhead()].join(":"))}, 50, 0);
+      frame.playhead(200);
+      assert(log.shift() === "0:100");
+      assert(log.shift() === "1:100");
+      assert(log.shift() === "2:100");
+      assert(log.shift() === "1:140");
+      assert(log.shift() === "0:150");
+      assert(log.shift() === "2:150");
+      assert(log.shift() === "1:180");
+      assert(log.shift() === "0:200");
+      assert(log.shift() === "2:200");
+      assert(log.shift() === undefined);
+      assert(frame.playhead() == 200);
+      assert(frame.duration() == 200);
+    });
+
+    it('should not execute timers after they have stopped', function(){
+      var log = [];
+      frame.playhead(100);
+      frame.timer(function() {
+        log.push([0, frame.playhead()].join(":"))
+        if (frame.playhead() == 140) {
+          this.stop();
+        }
+      }, 20, 0);
+      frame.playhead(200);
+      assert(log.shift() === "0:100");
+      assert(log.shift() === "0:120");
+      assert(log.shift() === "0:140");
+      assert(log.shift() === undefined);
+      assert(frame.playhead() == 200);
+      assert(frame.duration() == 200);
+    });
   });
 
   describe('#timer()', function(){
