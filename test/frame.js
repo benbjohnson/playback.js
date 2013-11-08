@@ -6,7 +6,39 @@ describe('Frame', function(){
 
   var frame = null;
   beforeEach(function() {
-    frame = new Frame();
+    frame = new Frame(function() {});
+  });
+
+  describe('Frame()', function(){
+    it('should throw error if missing frame function', function(done){
+      try {
+        new Frame();
+      } catch (e) {
+        assert(e == "Frame function required")
+        done();
+      }
+    });
+  });
+
+  describe('#init()', function(){
+    it('should run frame function', function(done){
+      frame = new Frame(function() { done() });
+      frame.init();
+    });
+  });
+
+  describe('#end()', function(){
+    it('should onend handler', function(done){
+      frame.onend(function(f) {
+        assert(f === frame);
+        done();
+      })
+      frame.end();
+    });
+
+    it('should ignore missing onend handler', function(){
+      frame.end();
+    });
   });
 
   describe('#playhead()', function(){
@@ -80,6 +112,26 @@ describe('Frame', function(){
       frame.playhead(100);
       var timer = frame.timer(function() {}, 200, -300);
       assert(timer.startTime() == 100);
+    });
+  });
+
+  describe('#reset()', function(){
+    it('should reset playhead', function(){
+      frame.playhead(100);
+      frame.reset();
+      assert(frame.playhead() === 0);
+    });
+
+    it('should reset duration', function(){
+      frame.playhead(100);
+      frame.reset();
+      assert(frame.duration() === 0);
+    });
+
+    it('should clear timers', function(){
+      frame.timer(function() {}, 100, 0);
+      frame.reset();
+      assert(frame.timers().length === 0);
     });
   });
 });
