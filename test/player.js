@@ -58,8 +58,8 @@ describe('Player', function(){
 
     it('should pass frame to function', function(){
       player.frame(function(frame) {
-        assert(this == player.frames()[0]);
-        assert(frame == player.frames()[0]);
+        assert(this == player.frame(0));
+        assert(frame == player.frame(0));
       });
     });
   });
@@ -67,7 +67,7 @@ describe('Player', function(){
   describe('#current()', function(){
     it('should retrieve current frame', function(){
       player.frame(function() {});
-      assert(player.current() == player.frames()[0]);
+      assert(player.current() == player.frame(0));
     });
 
     it('should return null if there are no frames', function(){
@@ -79,18 +79,18 @@ describe('Player', function(){
     it('should move to the next frame', function(){
       player.frame(function() {});
       player.frame(function() {});
-      assert(player.next() == true);
-      assert(player.current() == player.frames()[1]);
+      assert(player.next() === player);
+      assert(player.current() === player.frame(1));
     });
 
     it('should not move past the last frame', function(){
       player.frame(function() {});
-      assert(player.next() == false);
-      assert(player.current() == player.frames()[0]);
+      assert(player.next() === player);
+      assert(player.current() === player.frame(0));
     });
 
     it('should do nothing if there are no frames', function(){
-      assert(player.next() == false);
+      assert(player.next() === player);
     });
   });
 
@@ -98,19 +98,19 @@ describe('Player', function(){
     it('should move to the previous frame', function(){
       player.frame(function() {});
       player.frame(function() {});
-      assert(player.next() == true);
-      assert(player.prev() == true);
-      assert(player.current() == player.frames()[0]);
+      assert(player.next() === player);
+      assert(player.prev() === player);
+      assert(player.current() == player.frame(0));
     });
 
     it('should not move before the first frame', function(){
       player.frame(function() {});
-      assert(player.prev() == false);
-      assert(player.current() == player.frames()[0]);
+      assert(player.prev() === player);
+      assert(player.current() == player.frame(0));
     });
 
     it('should do nothing if there are no frames', function(){
-      assert(player.prev() == false);
+      assert(player.prev() === player);
     });
   });
 

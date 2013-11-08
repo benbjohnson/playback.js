@@ -7,6 +7,7 @@
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<script src="../build/build.js" charset="utf-8"></script>
+	<script src="playground.js" charset="utf-8"></script>
 </head>
 
 <body>
@@ -27,39 +28,5 @@
 			<div id="chart"></div>
 		</div>
 	</main>
-
-
-	<script>
-		var data = [{value:100}];
-		var svg = d3.select("#chart").append("svg")
-			.attr("width", 500)
-			.attr("height", 500)
-		var g = svg.append("g");
-
-		svg.selectAll("circle").data(data)
-			.call(function() {
-				var enter = this.enter(), exit = this.exit();
-				enter.append("circle")
-					.attr("r", "25")
-					.attr("cx", "50")
-					.attr("cy", "50")
-					.style("fill", "steelblue")
-				;
-				this.transition()
-					.duration(10000)
-					.ease("linear")
-					.attr("cx", 400)
-			})
-		;
-	</script>
-
-	<script>
-		$(document).on("click", "#play", function() {
-		})
-
-		$(document).on("click", "#pause", function() {
-		})
-
-	</script>
 </body>
 </html>
