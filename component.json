@@ -19,11 +19,14 @@
   "license": "MIT",
   "main": "lib/index.js",
   "scripts": [
+    "lib/ease.js",
     "lib/index.js",
     "lib/frame.js",
+    "lib/functor.js",
     "lib/playback.js",
     "lib/player.js",
-    "lib/timer.js"
+    "lib/timer.js",
+    "lib/tween.js"
   ],
   "remotes": []
 }
