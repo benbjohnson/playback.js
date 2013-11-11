@@ -8,7 +8,7 @@ describe('Tween', function(){
 
   describe('Tween()', function(){
     it('should initialize with scalar', function(){
-      tween = new Tween(5, 12, 100, 200);
+      tween = new Tween(null, 5, 12, 100, 200);
       assert(tween.startTime() === 100);
       assert(tween.endTime() === 200);
       assert(tween.startValue() === 5);
@@ -16,7 +16,7 @@ describe('Tween', function(){
     });
 
     it('should initialize with value function', function(){
-      tween = new Tween(function() { return 10; }, function(t) { return 20 }, 100, 200);
+      tween = new Tween(null, function() { return 10; }, function(t) { return 20 }, 100, 200);
       assert(tween.startTime() === 100);
       assert(tween.endTime() === 200);
       assert(tween.startValue() === 10);
@@ -26,7 +26,7 @@ describe('Tween', function(){
 
   describe('#value()', function(){
     beforeEach(function() {
-      tween = new Tween(0, 12, 100, 200);
+      tween = new Tween(null, 0, 12, 100, 200);
     });
 
     it('should calculate the value before start time', function(){
@@ -52,13 +52,13 @@ describe('Tween', function(){
 
   describe('#update()', function(){
     it('should ignore null functions', function(){
-      tween = new Tween(0, 12, 100, 200);
+      tween = new Tween(null, 0, 12, 100, 200);
       tween.update(150);
     });
 
     it('should execute the associated function', function(){
       var x = 0;
-      tween = new Tween(0, 12, 100, 200, function(v) { x = v; return 10; });
+      tween = new Tween(function(v) { x = v; return 10; }, 0, 12, 100, 200);
       var y = tween.update(150);
       assert(x === 6);
       assert(y === 10);
