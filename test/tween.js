@@ -30,7 +30,6 @@ describe('Tween', function(){
     });
 
     it('should calculate the value before start time', function(){
-      console.log(tween.value(99));
       assert(tween.value(99) === 0);
     });
 
@@ -48,6 +47,21 @@ describe('Tween', function(){
 
     it('should calculate the value after end time', function(){
       assert(tween.value(300) === 12);
+    });
+  });
+
+  describe('#update()', function(){
+    it('should ignore null functions', function(){
+      tween = new Tween(0, 12, 100, 200);
+      tween.update(150);
+    });
+
+    it('should execute the associated function', function(){
+      var x = 0;
+      tween = new Tween(0, 12, 100, 200, function(v) { x = v; return 10; });
+      var y = tween.update(150);
+      assert(x === 6);
+      assert(y === 10);
     });
   });
 });
