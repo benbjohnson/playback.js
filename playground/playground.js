@@ -13,9 +13,13 @@ player.frame(function(frame) {
     model.nodes.push(new Node("joe"));
     model.nodes.push(new Node("susan"));
 
-    this.timer(function() {
+    this.tween(function() {
         model.nodes[0].x += 10;
-    }, 100);
+    }, 100, 200, 1000);
+
+    this.tween(function() {
+        model.nodes[1].y += 10;
+    }, 100, 200, 1000, 500);
 });
 
 player.onupdate(function() {

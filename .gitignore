@@ -3,3 +3,4 @@ build
 node_modules
 playback.js
 playback.min.js
+.DS_Store
