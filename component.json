@@ -23,6 +23,7 @@
     "lib/index.js",
     "lib/frame.js",
     "lib/functor.js",
+    "lib/layout.js",
     "lib/playback.js",
     "lib/player.js",
     "lib/timer.js",

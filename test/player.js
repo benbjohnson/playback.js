@@ -1,6 +1,7 @@
 describe('Player', function(){
 
   var Player   = require('playback/lib/player')
+    , Layout   = require('playback/lib/layout')
     , assert   = require('assert')
     , equals   = require('equals')
     , nextTick = require('next-tick');
@@ -72,6 +73,36 @@ describe('Player', function(){
 
     it('should return null if there are no frames', function(){
       assert(player.current() === null);
+    });
+  });
+
+  describe('#model()', function(){
+    it('should set and retrieve the model', function(){
+      var model = {};
+      assert(player.model(model) === player);
+      assert(player.model() == model);
+    });
+  });
+
+  describe('#layout()', function(){
+    it('should set and retrieve the layout', function(){
+      var layout = new Layout();
+      assert(player.layout(layout) === player);
+      assert(player.layout() == layout);
+      assert(layout.player() == player);
+    });
+
+    it('should associate layout to player', function(){
+      var layout = new Layout();
+      player.layout(layout);
+      assert(layout.player() == player);
+    });
+
+    it('should disassociate old layout from player', function(){
+      var layout = new Layout();
+      player.layout(layout);
+      player.layout(null);
+      assert(layout.player() === null);
     });
   });
 
