@@ -903,12 +903,76 @@ module.exports = functor;
 
 
 });
+require.register("playback/lib/layout.js", function(exports, require, module){
+
+"use strict";
+/*jslint browser: true, nomen: true*/
+
+/**
+ * Initializes a new Layout instance.
+ */
+function Layout() {
+    this._player = null;
+}
+
+/**
+ * Initializes the layout. This is called when the player is set on
+ * the layout.
+ */
+Layout.prototype.initialize = function () {
+    // Implemented by subclass.
+};
+
+/**
+ * Sets or retrieves the player associated with the layout.
+ *
+ * @return {Player|Layout}
+ */
+Layout.prototype.player = function (value) {
+    if (arguments.length === 0) {
+        return this._player;
+    }
+    this._player = value;
+    this.initialize();
+    return this;
+};
+
+/**
+ * Retrieves the current frame on the player.
+ *
+ * @return {Frame}
+ */
+Layout.prototype.current = function () {
+    var player = this.player();
+    if (player === null) {
+        return null;
+    }
+    return player.current();
+};
+
+/**
+ * Retrieves the current frame's model.
+ *
+ * @return {Model}
+ */
+Layout.prototype.model = function () {
+    var current = this.current();
+    if (current === null) {
+        return null;
+    }
+    return current.model();
+};
+
+module.exports = Layout;
+
+});
 require.register("playback/lib/playback.js", function(exports, require, module){
 
 "use strict";
 /*jslint browser: true, nomen: true*/
 
-var Player = require('./player');
+var Player = require('./player'),
+    Layout = require('./layout');
 
 /**
  * Initializes a new Playback instance.
@@ -921,6 +985,13 @@ function Playback() {
  */
 Playback.prototype.player = function () {
     return new Player();
+};
+
+/**
+ * Retrieves the layout superclass.
+ */
+Playback.prototype.layout = function () {
+    return new Layout();
 };
 
 module.exports = Playback;
@@ -949,6 +1020,7 @@ function Player() {
     this._prevtick = null;
     this._ticker = null;
     this._model = null;
+    this._layout = null;
 }
 
 /**
@@ -1119,6 +1191,29 @@ Player.prototype.model = function (value) {
         return this._model;
     }
     this._model = value;
+    return this;
+};
+
+/**
+ * Sets or retrieves the layout.
+ *
+ * @return {Player|Layout}
+ */
+Player.prototype.layout = function (value) {
+    if (arguments.length === 0) {
+        return this._layout;
+    }
+
+    if (this._layout !== null) {
+        this._layout.player(null);
+    }
+
+    this._layout = value;
+
+    if (this._layout !== null) {
+        this._layout.player(this);
+    }
+
     return this;
 };
 

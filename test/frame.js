@@ -56,16 +56,13 @@ describe('Frame', function(){
 
     it('should execute timers between playhead changes', function(){
       var log = [];
-      frame.timer(function() { log.push([0, frame.playhead()].join(":"))}, 50, 100);
+      frame.timer(function() { log.push([0, frame.playhead()].join(":"))}).interval(100);
       frame.playhead(100);
-      frame.timer(function() { log.push([1, frame.playhead()].join(":"))}, 40, 0);
-      frame.timer(function() { log.push([2, frame.playhead()].join(":"))}, 50, 0);
+      frame.timer(function() { log.push([1, frame.playhead()].join(":"))}).interval(40);
+      frame.timer(function() { log.push([2, frame.playhead()].join(":"))}).interval(50);
       frame.playhead(200);
       assert(log.shift() === "0:100");
-      assert(log.shift() === "1:100");
-      assert(log.shift() === "2:100");
       assert(log.shift() === "1:140");
-      assert(log.shift() === "0:150");
       assert(log.shift() === "2:150");
       assert(log.shift() === "1:180");
       assert(log.shift() === "0:200");
@@ -83,9 +80,8 @@ describe('Frame', function(){
         if (frame.playhead() == 140) {
           this.stop();
         }
-      }, 20, 0);
+      }).interval(20);
       frame.playhead(200);
-      assert(log.shift() === "0:100");
       assert(log.shift() === "0:120");
       assert(log.shift() === "0:140");
       assert(log.shift() === undefined);
@@ -98,7 +94,6 @@ describe('Frame', function(){
       frame.playhead(100);
       frame.tween(function(v) { x = v; }, 0, 20, 50);
       frame.playhead(125);
-      console.log(x);
       assert(x === 10);
     });
   });
@@ -106,21 +101,14 @@ describe('Frame', function(){
   describe('#timer()', function(){
     it('should create a new timer', function(){
       frame.playhead(100);
-      var timer = frame.timer(function() {}, 200);
+      var timer = frame.timer(function() {});
       assert(timer.startTime() == 100);
-      assert(timer.interval() == 200);
     });
 
     it('should create a new timer with a delay', function(){
       frame.playhead(100);
-      var timer = frame.timer(function() {}, 200, 300);
-      assert(timer.startTime() == 400);
-    });
-
-    it('should not allow a negative delay', function(){
-      frame.playhead(100);
-      var timer = frame.timer(function() {}, 200, -300);
-      assert(timer.startTime() == 100);
+      var timer = frame.timer(function() {}).delay(200);
+      assert(timer.startTime() == 300);
     });
   });
 
@@ -138,7 +126,7 @@ describe('Frame', function(){
     });
 
     it('should clear timers', function(){
-      frame.timer(function() {}, 100, 0);
+      frame.timer(function() {});
       frame.reset();
       assert(frame.timers().length === 0);
     });
