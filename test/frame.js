@@ -1,6 +1,7 @@
 describe('Frame', function(){
 
   var Frame   = require('playback/lib/frame')
+    , Player  = require('playback/lib/player')
     , assert   = require('assert')
     , equals   = require('equals');
 
@@ -38,6 +39,14 @@ describe('Frame', function(){
 
     it('should ignore missing onend handler', function(){
       frame.end();
+    });
+  });
+
+  describe('#player()', function(){
+    it('should set and retrieve the player', function(){
+      var player = new Player();
+      assert(frame.player(player) === frame);
+      assert(frame.player() == player);
     });
   });
 

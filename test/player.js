@@ -51,6 +51,11 @@ describe('Player', function(){
       assert(player.frames().length == 1);
     });
 
+    it('should associate frame with player', function(){
+      player.frame(function() {});
+      assert(player.frame(0).player() === player);
+    });
+
     it('should execute function argument', function(done){
       player.frame(function() {
         done();
