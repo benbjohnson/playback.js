@@ -168,6 +168,19 @@ describe('Player', function(){
       player.model(new TestModel());
       assert(player.current().model().foo === "barxxx");
     });
+
+    it('should reinitialize frame when moving back', function(){
+      player.model(new TestModel());
+      player.frame(function(frame) {
+        frame.model().foo += "xxx";
+      });
+      player.frame(function(frame) {
+        frame.model().foo += "yyy";
+      });
+      player.next();
+      player.prev();
+      assert(player.current().model().foo === "barxxx");
+    });
   });
 
   describe('#prev()', function(){
