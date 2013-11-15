@@ -2,6 +2,7 @@ describe('Player', function(){
 
   var Player   = require('playback/lib/player')
     , Layout   = require('playback/lib/layout')
+    , Model    = require('playback/lib/model')
     , assert   = require('assert')
     , equals   = require('equals')
     , nextTick = require('next-tick');
@@ -9,6 +10,7 @@ describe('Player', function(){
   var player = null, svg = null, g = null;
   beforeEach(function() {
     player = new Player();
+    player.model(new Model());
   });
 
   describe('#rate()', function(){
@@ -127,6 +129,44 @@ describe('Player', function(){
 
     it('should do nothing if there are no frames', function(){
       assert(player.next() === player);
+    });
+  });
+
+  describe('#currentIndex()', function(){
+    function TestModel() { this.foo = "bar"; }
+    TestModel.prototype = new Model();
+    TestModel.prototype.clone = function() {
+      var clone = new TestModel();
+      clone.foo = this.foo;
+      return clone;
+    };
+
+    it('should clone the current model', function(){
+      player.model(new TestModel());
+      player.frame(function(frame) {
+        frame.model().foo += "xxx";
+      });
+      player.frame(function(frame) {
+        frame.model().foo += "yyy";
+      });
+      player.frame(function(frame) {
+        frame.model().foo += "zzz";
+      });
+      player.next();
+      player.next();
+      assert(player.model().foo === "bar");
+      assert(player.frame(0).model().foo === "barxxx");
+      assert(player.frame(1).model().foo === "barxxxyyy");
+      assert(player.frame(2).model().foo === "barxxxyyyzzz");
+    });
+
+    it('should set the current frame model if called in reverse order', function(){
+      player = new Player();
+      player.frame(function(frame) {
+        frame.model().foo += "xxx";
+      });
+      player.model(new TestModel());
+      assert(player.current().model().foo === "barxxx");
     });
   });
 
