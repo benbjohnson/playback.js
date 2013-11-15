@@ -7,6 +7,14 @@ describe('Player', function(){
     , equals   = require('equals')
     , nextTick = require('next-tick');
 
+  function TestModel() { this.foo = "bar"; }
+  TestModel.prototype = new Model();
+  TestModel.prototype.clone = function() {
+    var clone = new TestModel();
+    clone.foo = this.foo;
+    return clone;
+  };
+
   var player = null, svg = null, g = null;
   beforeEach(function() {
     player = new Player();
@@ -130,17 +138,19 @@ describe('Player', function(){
     it('should do nothing if there are no frames', function(){
       assert(player.next() === player);
     });
+
+    it('should end the previous frame', function(done){
+      player.frame(function(frame) {
+        frame.onend(function() {
+          done();
+        })
+      });
+      player.frame(function() {});
+      player.next();
+    });
   });
 
   describe('#currentIndex()', function(){
-    function TestModel() { this.foo = "bar"; }
-    TestModel.prototype = new Model();
-    TestModel.prototype.clone = function() {
-      var clone = new TestModel();
-      clone.foo = this.foo;
-      return clone;
-    };
-
     it('should clone the current model', function(){
       player.model(new TestModel());
       player.frame(function(frame) {
@@ -200,6 +210,19 @@ describe('Player', function(){
 
     it('should do nothing if there are no frames', function(){
       assert(player.prev() === player);
+    });
+
+    it('should end the previous frame', function(done){
+      var done2 = function() {};
+      player.frame(function() {});
+      player.frame(function(frame) {
+        frame.onend(function() {
+          done2();
+        })
+      });
+      player.next();
+      done2 = done;
+      player.prev();
     });
   });
 
