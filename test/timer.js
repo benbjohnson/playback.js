@@ -68,6 +68,16 @@ describe('Timer', function(){
       assert(timer.until(500) === 500);
     });
 
+    it('should return end time if there is no interval', function(){
+      timer = new Timer(function() {}).endTime(500);
+      assert(timer.until(200) === 500);
+    });
+
+    it('should return null if after end time', function(){
+      timer = new Timer(function() {}).endTime(500);
+      assert(timer.until(700) === null);
+    });
+
     it('should return time to next interval', function(){
       timer = new Timer(function() {}).startTime(200).interval(100);
       assert(timer.until(501) === 600);
