@@ -226,6 +226,36 @@ describe('Player', function(){
     });
   });
 
+  describe('#resizeable()', function(){
+    it('should call original resize function', function(done){
+      window.onresize = function() { done(); }
+      assert(player.resizeable(true) === player);
+      window.onresize()
+      window.onresize = null;
+    });
+
+    it('should invalidate the layout on resize', function(done){
+      function TestLayout() {}
+      TestLayout.prototype = new Layout();
+      TestLayout.prototype.invalidateSize = function() { done(); }
+      player.layout(new TestLayout());
+      player.resizeable(true);
+      window.onresize()
+      window.onresize = null;
+    });
+
+    it('should allow disabling resize', function(){
+      function TestLayout() {}
+      TestLayout.prototype = new Layout();
+      TestLayout.prototype.invalidateSize = function() { assert(false); }
+      player.layout(new TestLayout());
+      player.resizeable(true);
+      player.resizeable(false);
+      window.onresize();
+      window.onresize = null;
+    });
+  });
+
   describe('#tick()', function(){
     it('should move the playhead', function(done){
       player.frame(function() {});
