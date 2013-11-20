@@ -267,22 +267,16 @@ describe('Player', function(){
     });
   });
 
-  describe('#onframechange()', function(){
-    it('should set and retrieve', function(){
-      var fn = function() {};
-      assert(player.onframechange(fn) === player);
-      assert(player.onframechange() === fn);
-    });
-
+  describe('framechange', function(){
     it('should dispatch on initial frame', function(done){
-      player.onframechange(function() { done() });
+      player.addEventListener("framechange", function() { done() });
       player.frame(function() {});
     });
 
     it('should dispatch on next', function(done){
       player.frame(function() {});
       player.frame(function() {});
-      player.onframechange(function() { done() });
+      player.addEventListener("framechange", function() { done() });
       player.next();
     });
 
@@ -290,13 +284,13 @@ describe('Player', function(){
       player.frame(function() {});
       player.frame(function() {});
       player.next();
-      player.onframechange(function() { done() });
+      player.addEventListener("framechange", function() { done() });
       player.prev();
     });
 
     it('should not dispatch on prev at first frame', function(){
       player.frame(function() {});
-      player.onframechange(function() { assert(false) });
+      player.addEventListener("framechange", function() { assert(false) });
       player.prev();
     });
 
@@ -304,7 +298,7 @@ describe('Player', function(){
       player.frame(function() {});
       player.frame(function() {});
       player.next();
-      player.onframechange(function() { assert(false) });
+      player.addEventListener("framechange", function() { assert(false) });
       player.next();
     });
   });
