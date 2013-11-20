@@ -21,6 +21,8 @@
   "scripts": [
     "lib/ease.js",
     "lib/index.js",
+    "lib/event.js",
+    "lib/event_dispatcher.js",
     "lib/frame.js",
     "lib/functor.js",
     "lib/layout.js",
