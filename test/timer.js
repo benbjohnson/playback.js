@@ -1,10 +1,16 @@
 describe('Timer', function(){
 
   var Timer   = require('playback/lib/timer')
+    , Frame   = require('playback/lib/frame')
     , assert   = require('assert')
     , equals   = require('equals');
 
-  var timer = null;
+  var timer = null,
+      frame = null;
+
+  beforeEach(function() {
+    frame = new Frame(function() {});
+  });
 
   describe('Timer()', function(){
     it('should initialize to a running state', function(){
@@ -34,6 +40,22 @@ describe('Timer', function(){
     it('should not allow a negative interval', function(){
       timer = new Timer(null, function() {}).interval(-100);
       assert(timer.interval() === undefined);
+    });
+  });
+
+  describe('#then()', function(){
+    it('should create a new timer linked to the frame', function(){
+      var t0 = frame.timer(function() {}).endTime(200);
+      var t1 = t0.then(function() {});
+      assert(t1.frame() == frame);
+    });
+
+    it('should offset the new timers times based on the first timers end time', function(){
+      var t0 = frame.timer(function() {}).endTime(200);
+      var t1 = t0.then(function() {}).endTime(300);
+      frame.playhead(301);
+      assert(t1.startTime() === 201);
+      assert(t1.endTime() === 501);
     });
   });
 
