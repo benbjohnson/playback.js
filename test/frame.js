@@ -29,15 +29,10 @@ describe('Frame', function(){
   });
 
   describe('#end()', function(){
-    it('should onend handler', function(done){
-      frame.onend(function(f) {
-        assert(f === frame);
+    it('should dispatch "end" event', function(done){
+      frame.addEventListener("end", function() {
         done();
       })
-      frame.end();
-    });
-
-    it('should ignore missing onend handler', function(){
       frame.end();
     });
   });

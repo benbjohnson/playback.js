@@ -141,7 +141,7 @@ describe('Player', function(){
 
     it('should end the previous frame', function(done){
       player.frame(function(frame) {
-        frame.onend(function() {
+        frame.addEventListener("end", function() {
           done();
         })
       });
@@ -216,7 +216,7 @@ describe('Player', function(){
       var done2 = function() {};
       player.frame(function() {});
       player.frame(function(frame) {
-        frame.onend(function() {
+        frame.addEventListener("end", function() {
           done2();
         })
       });
