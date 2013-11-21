@@ -4,6 +4,10 @@ describe('Set', function(){
     , assert = require('assert')
     , equals = require('equals');
 
+  function TestClass(id, value) { this.id = id; this.value = value; }
+  TestClass.prototype.clone = function() { var clone = new TestClass(); clone.id = this.id; clone.value = this.value; return clone; }
+
+
   var set = null;
 
   beforeEach(function() {
@@ -32,6 +36,19 @@ describe('Set', function(){
     it('should return false for missing element', function(){
       set.add({id:1});
       assert(set.contains({id:2}) === false);
+    });
+  });
+
+  describe('#create()', function(){
+    it('should create a new element with a given id', function(){
+      set.clazz(TestClass);
+      assert(set.create(1).id === 1);
+    });
+
+    it('should return existing element if exists', function(){
+      set.clazz(TestClass);
+      var el = set.create(2);
+      assert(set.create(2) === el);
     });
   });
 
@@ -90,8 +107,6 @@ describe('Set', function(){
 
   describe('#clone()', function(){
     it('should clone all elements', function(){
-      function TestClass(id, value) { this.id = id; this.value = value; }
-      TestClass.prototype.clone = function() { var clone = new TestClass(); clone.id = this.id; clone.value = this.value; return clone; }
       set.add(new TestClass(1, 100));
       set.add(new TestClass(2, 200));
       var clone = set.clone();
