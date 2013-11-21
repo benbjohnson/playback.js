@@ -261,7 +261,7 @@ describe('Player', function(){
       player.frame(function() {});
       player.play();
       setTimeout(function() {
-        assert(Math.abs(player.current().playhead() - 300) < 10);
+        assert(Math.abs(player.current().playhead() - 300) < 50);
         done();
       }, 310);
     });
