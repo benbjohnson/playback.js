@@ -235,22 +235,26 @@ describe('Player', function(){
     });
 
     it('should invalidate the layout on resize', function(done){
+      var _done = function() {};
       function TestLayout() {}
       TestLayout.prototype = new Layout();
-      TestLayout.prototype.invalidateSize = function() { done(); }
+      TestLayout.prototype.invalidateSize = function() { _done(); }
       player.layout(new TestLayout());
+      _done = done;
       player.resizeable(true);
       window.onresize()
       window.onresize = null;
     });
 
     it('should allow disabling resize', function(){
+      var fn = function() {};
       function TestLayout() {}
       TestLayout.prototype = new Layout();
-      TestLayout.prototype.invalidateSize = function() { assert(false); }
+      TestLayout.prototype.invalidateSize = function() { fn() }
       player.layout(new TestLayout());
       player.resizeable(true);
       player.resizeable(false);
+      fn = function() { assert(false); };
       window.onresize();
       window.onresize = null;
     });

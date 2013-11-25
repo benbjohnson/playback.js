@@ -60,7 +60,7 @@ describe('Set', function(){
     it('should add an element to the set', function(){
       set.add({id:100});
       set.add({id:200});
-      assert(set.toArray().length === 2);
+      assert(set.size() === 2);
       assert(set.toArray()[0].id === 100);
       assert(set.toArray()[1].id === 200);
     });
@@ -68,7 +68,7 @@ describe('Set', function(){
     it('should not add a duplicate element to the set', function(){
       set.add({id:100});
       set.add({id:100});
-      assert(set.toArray().length === 1);
+      assert(set.size() === 1);
     });
   });
 
@@ -76,13 +76,13 @@ describe('Set', function(){
     it('should remove a matching element', function(){
       set.add({id:1});
       set.remove({id:1});
-      assert(set.toArray().length === 0);
+      assert(set.size() === 0);
     });
 
     it('should not remove a non-matching element', function(){
       set.add({id:1});
       set.remove({id:2});
-      assert(set.toArray().length === 1);
+      assert(set.size() === 1);
     });
   });
 
@@ -91,7 +91,7 @@ describe('Set', function(){
       set.add({id:1});
       set.add({id:2});
       set.removeAll();
-      assert(set.toArray().length === 0);
+      assert(set.size() === 0);
     });
   });
 
@@ -111,7 +111,7 @@ describe('Set', function(){
       set.add(new TestClass(2, 200));
       var clone = set.clone();
       set.find(1).value = 300;
-      assert(clone.toArray().length === 2);
+      assert(clone.size() === 2);
       assert(clone.find(1) !== null);
       assert(clone.find(2) !== null);
       assert(clone.find(3) === null);
