@@ -22,40 +22,50 @@ describe('Timer', function(){
   describe('#startTime()', function(){
     it('should set and retrieve the start time', function(){
       timer = new Timer(null, function() {}).startTime(200);
-      assert(timer.startTime() == 200);
+      assert.equal(200, timer.startTime());
     });
   });
 
   describe('#interval()', function(){
     it('should set and retrieve the interval', function(){
       timer = new Timer(null, function() {}).interval(100);
-      assert(timer.interval() == 100);
+      assert.equal(100, timer.interval());
     });
 
     it('should not allow a zero interval', function(){
       timer = new Timer(null, function() {}).interval(0);
-      assert(timer.interval() === undefined);
+      assert.strictEqual(undefined, timer.interval());
     });
 
     it('should not allow a negative interval', function(){
       timer = new Timer(null, function() {}).interval(-100);
-      assert(timer.interval() === undefined);
+      assert.strictEqual(undefined, timer.interval());
     });
   });
 
   describe('#then()', function(){
     it('should create a new timer linked to the frame', function(){
-      var t0 = frame.timer(function() {}).endTime(200);
+      var t0 = frame.timer(function() {}).startTime(200);
       var t1 = t0.then(function() {});
-      assert(t1.frame() == frame);
+      assert.equal(frame, t1.frame());
     });
 
-    it('should offset the new timers times based on the first timers end time', function(){
-      var t0 = frame.timer(function() {}).endTime(200);
-      var t1 = t0.then(function() {}).endTime(300);
+    it('should offset the new timer based on the first timer end time', function(){
+      var t0 = frame.timer(function() {}).startTime(200);
+      var t1 = t0.then(function() {}).delay(300);
       frame.playhead(301);
-      assert(t1.startTime() === 201);
-      assert(t1.endTime() === 501);
+      assert.equal(501, t1.startTime());
+    });
+  });
+
+  describe('#after()', function(){
+    it('should offset the new timer based on the first timer', function(){
+      var t0 = frame.timer(function() {}).startTime(200);
+      var t1 = t0.after(300, function() {});
+      console.log(t0.startTime(), t1.startTime());
+      frame.playhead(201);
+      console.log(t0.startTime(), t1.startTime());
+      assert.equal(501, t1.startTime());
     });
   });
 
@@ -77,33 +87,29 @@ describe('Timer', function(){
   describe('#until()', function(){
     it('should return null if stopped', function(){
       timer = new Timer(null, function() {}).startTime(200).interval(100).stop();
-      assert(timer.until(1000) === null);
+      assert.strictEqual(null, timer.until(1000));
     });
 
     it('should return start time if t is before start time', function(){
       timer = new Timer(null, function() {}).startTime(2000).interval(100);
-      assert(timer.until(500) === 2000);
+      assert.equal(2000, timer.until(500));
     });
 
     it('should return time on an interval', function(){
       timer = new Timer(null, function() {}).startTime(200).interval(100);
-      assert(timer.until(500) === 500);
-    });
-
-    it('should return end time if there is no interval', function(){
-      timer = new Timer(null, function() {}).endTime(500);
-      assert(timer.until(200) === 500);
-    });
-
-    it('should return null if after end time', function(){
-      timer = new Timer(null, function() {}).endTime(500);
-      assert(timer.until(700) === null);
+      assert.equal(500, timer.until(500));
     });
 
     it('should return time to next interval', function(){
       timer = new Timer(null, function() {}).startTime(200).interval(100);
-      assert(timer.until(501) === 600);
-      assert(timer.until(599) === 600);
+      assert.equal(600, timer.until(501));
+      assert.equal(600, timer.until(599));
+    });
+
+    it('should return null if after end time', function(){
+      timer = new Timer(null, function() {}).startTime(100).interval(50).duration(200);
+      assert.strictEqual(300, timer.until(300));
+      assert.strictEqual(null, timer.until(301));
     });
   });
 

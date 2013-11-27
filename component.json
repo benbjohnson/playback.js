@@ -10,7 +10,7 @@
     "timoxley/next-tick": "0.0.2"
   },
   "development": {
-    "component/assert": "*",
+    "timoxley/assert": "*",
     "jkroso/equals": "*",
     "visionmedia/mocha": "*",
     "visionmedia/mocha-cloud": "*",
