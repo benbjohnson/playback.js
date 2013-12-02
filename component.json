@@ -29,6 +29,7 @@
     "lib/model.js",
     "lib/playback.js",
     "lib/player.js",
+    "lib/raf.js",
     "lib/set.js",
     "lib/timer.js",
     "lib/tween.js"

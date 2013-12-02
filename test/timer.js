@@ -62,10 +62,18 @@ describe('Timer', function(){
     it('should offset the new timer based on the first timer', function(){
       var t0 = frame.timer(function() {}).startTime(200);
       var t1 = t0.after(300, function() {});
-      console.log(t0.startTime(), t1.startTime());
       frame.playhead(201);
-      console.log(t0.startTime(), t1.startTime());
       assert.equal(501, t1.startTime());
+    });
+
+    it('should execute all timers even if start times are skipped', function(){
+      var count = 0;
+      var t0 = frame.after(100, function() { count++; });
+      var t1 = t0.after(100, function() { count++; });
+      var t2 = t1.after(100, function() { count++; });
+      frame.playhead(99);
+      frame.playhead(1000);
+      assert.equal(count, 3);
     });
   });
 
