@@ -97,7 +97,7 @@ describe('Player', function(){
 
   describe('#model()', function(){
     it('should set and retrieve the model', function(){
-      var model = {};
+      var model = new Model();
       assert(player.model(model) === player);
       assert(player.model() == model);
     });
