@@ -1,7 +1,8 @@
 describe('Frame', function(){
 
-  var Frame   = require('playback/lib/frame')
-    , Player  = require('playback/lib/player')
+  var Frame    = require('playback/lib/frame')
+    , Model    = require('playback/lib/model')
+    , Player   = require('playback/lib/player')
     , assert   = require('assert')
     , equals   = require('equals');
 
@@ -9,6 +10,9 @@ describe('Frame', function(){
   beforeEach(function() {
     frame = new Frame(function() {});
   });
+
+  function TestModel() { }
+  TestModel.prototype = new Model();
 
   describe('Frame()', function(){
     it('should throw error if missing frame function', function(done){
@@ -105,6 +109,31 @@ describe('Frame', function(){
       frame.playhead(100);
       var timer = frame.timer(function() {}).delay(200);
       assert(timer.startTime() == 300);
+    });
+  });
+
+  describe('#reset()', function(){
+    it('should rollback to specific snapshot', function(){
+      var snapshot, value = "";
+      frame.model(new TestModel());
+      frame.after(100, function() {
+        value += "A";
+      })
+      .after(100, function() {
+        snapshot = frame.snapshot();
+        value += "B";
+      })
+      .after(100, function() {
+        value += "C";
+      })
+      .after(100, function() {
+        value += "D";
+      })
+      frame.playhead(1000);
+      assert.equal("ABCD", value);
+      frame.restore(snapshot);
+      frame.playhead(1000);
+      assert.equal("ABCDBCD", value);
     });
   });
 

@@ -30,6 +30,7 @@
     "lib/playback.js",
     "lib/player.js",
     "lib/raf.js",
+    "lib/snapshot.js",
     "lib/set.js",
     "lib/timer.js"
   ],
