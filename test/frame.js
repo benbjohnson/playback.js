@@ -92,14 +92,6 @@ describe('Frame', function(){
       assert(frame.playhead() == 200);
       assert(frame.duration() == 200);
     });
-
-    it('should update tweens', function(){
-      var x;
-      frame.playhead(100);
-      frame.tween(function(v) { x = v; }, 0, 20, 50);
-      frame.playhead(125);
-      assert(x === 10);
-    });
   });
 
   describe('#timer()', function(){

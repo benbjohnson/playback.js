@@ -31,8 +31,7 @@
     "lib/player.js",
     "lib/raf.js",
     "lib/set.js",
-    "lib/timer.js",
-    "lib/tween.js"
+    "lib/timer.js"
   ],
   "remotes": []
 }
