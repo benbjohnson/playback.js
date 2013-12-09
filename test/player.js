@@ -4,7 +4,6 @@ describe('Player', function(){
     , Layout   = require('playback/lib/layout')
     , Model    = require('playback/lib/model')
     , assert   = require('assert')
-    , equals   = require('equals')
     , nextTick = require('next-tick');
 
   function TestModel() { this.foo = "bar"; }
@@ -28,7 +27,7 @@ describe('Player', function(){
   describe('#rate()', function(){
     it('should set the rate', function(){
       player.rate(0.5);
-      assert(player.rate() == 0.5);
+      assert.equal(0.5, player.rate());
     });
 
     it('should not allow negative rates', function(){
@@ -155,7 +154,7 @@ describe('Player', function(){
   });
 
   describe('#currentIndex()', function(){
-    it('should clone the current model', function(){
+    it('should clone the player model', function(){
       player.model(new TestModel());
       player.frame(function(frame) {
         frame.model().foo += "xxx";
@@ -168,10 +167,10 @@ describe('Player', function(){
       });
       player.next();
       player.next();
-      assert(player.model().foo === "bar");
-      assert(player.frame(0).model().foo === "barxxx");
-      assert(player.frame(1).model().foo === "barxxxyyy");
-      assert(player.frame(2).model().foo === "barxxxyyyzzz");
+      assert.equal("bar", player.model().foo);
+      assert.equal("barxxx", player.frame(0).model().foo);
+      assert.equal("baryyy", player.frame(1).model().foo);
+      assert.equal("barzzz", player.frame(2).model().foo);
     });
 
     it('should set the current frame model if called in reverse order', function(){
