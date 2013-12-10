@@ -8,26 +8,15 @@ describe('Frame', function(){
 
   var frame = null;
   beforeEach(function() {
-    frame = new Frame(function() {});
+    frame = new Frame("x", "y", function() {});
   });
 
   function TestModel() { }
   TestModel.prototype = new Model();
 
-  describe('Frame()', function(){
-    it('should throw error if missing frame function', function(done){
-      try {
-        new Frame();
-      } catch (e) {
-        assert(e == "Frame function required")
-        done();
-      }
-    });
-  });
-
   describe('#init()', function(){
     it('should run frame function', function(done){
-      frame = new Frame(function() { done() });
+      frame = new Frame("x", "y", function() { done() });
       frame.init();
     });
   });

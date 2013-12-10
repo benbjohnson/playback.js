@@ -60,23 +60,23 @@ describe('Player', function(){
 
   describe('#frame()', function(){
     it('should append a new frame', function(){
-      player.frame(function() {});
+      player.frame("x", "y", function() {});
       assert(player.frames().length == 1);
     });
 
     it('should associate frame with player', function(){
-      player.frame(function() {});
+      player.frame("x", "y", function() {});
       assert(player.frame(0).player() === player);
     });
 
     it('should execute function argument', function(done){
-      player.frame(function() {
+      player.frame("x", "y", function() {
         done();
       });
     });
 
     it('should pass frame to function', function(){
-      player.frame(function(frame) {
+      player.frame("x", "y", function(frame) {
         assert(this == player.frame(0));
         assert(frame == player.frame(0));
       });
@@ -85,7 +85,7 @@ describe('Player', function(){
 
   describe('#current()', function(){
     it('should retrieve current frame', function(){
-      player.frame(function() {});
+      player.frame("x", "y", function() {});
       assert(player.current() == player.frame(0));
     });
 
@@ -126,14 +126,14 @@ describe('Player', function(){
 
   describe('#next()', function(){
     it('should move to the next frame', function(){
-      player.frame(function() {});
-      player.frame(function() {});
+      player.frame("x", "a", function() {});
+      player.frame("y", "b", function() {});
       assert(player.next() === player);
       assert(player.current() === player.frame(1));
     });
 
     it('should not move past the last frame', function(){
-      player.frame(function() {});
+      player.frame("x", "y", function() {});
       assert(player.next() === player);
       assert(player.current() === player.frame(0));
     });
@@ -143,12 +143,12 @@ describe('Player', function(){
     });
 
     it('should end the previous frame', function(done){
-      player.frame(function(frame) {
+      player.frame("x", "y", function(frame) {
         frame.addEventListener("end", function() {
           done();
         })
       });
-      player.frame(function() {});
+      player.frame("x", "y", function() {});
       player.next();
     });
   });
@@ -156,13 +156,13 @@ describe('Player', function(){
   describe('#currentIndex()', function(){
     it('should clone the player model', function(){
       player.model(new TestModel());
-      player.frame(function(frame) {
+      player.frame("x", "a", function(frame) {
         frame.model().foo += "xxx";
       });
-      player.frame(function(frame) {
+      player.frame("y", "b", function(frame) {
         frame.model().foo += "yyy";
       });
-      player.frame(function(frame) {
+      player.frame("z", "c", function(frame) {
         frame.model().foo += "zzz";
       });
       player.next();
@@ -175,7 +175,7 @@ describe('Player', function(){
 
     it('should set the current frame model if called in reverse order', function(){
       player = new Player();
-      player.frame(function(frame) {
+      player.frame("x", "a", function(frame) {
         frame.model().foo += "xxx";
       });
       player.model(new TestModel());
@@ -184,10 +184,10 @@ describe('Player', function(){
 
     it('should reinitialize frame when moving back', function(){
       player.model(new TestModel());
-      player.frame(function(frame) {
+      player.frame("x", "a", function(frame) {
         frame.model().foo += "xxx";
       });
-      player.frame(function(frame) {
+      player.frame("y", "b", function(frame) {
         frame.model().foo += "yyy";
       });
       player.next();
@@ -198,15 +198,15 @@ describe('Player', function(){
 
   describe('#prev()', function(){
     it('should move to the previous frame', function(){
-      player.frame(function() {});
-      player.frame(function() {});
+      player.frame("x", "a", function() {});
+      player.frame("y", "b", function() {});
       assert(player.next() === player);
       assert(player.prev() === player);
       assert(player.current() == player.frame(0));
     });
 
     it('should not move before the first frame', function(){
-      player.frame(function() {});
+      player.frame("x", "a", function() {});
       assert(player.prev() === player);
       assert(player.current() == player.frame(0));
     });
@@ -217,8 +217,8 @@ describe('Player', function(){
 
     it('should end the previous frame', function(done){
       var done2 = function() {};
-      player.frame(function() {});
-      player.frame(function(frame) {
+      player.frame("x", "a", function() {});
+      player.frame("y", "b", function(frame) {
         frame.addEventListener("end", function() {
           done2();
         })
@@ -268,7 +268,7 @@ describe('Player', function(){
     // to work in PhantomJS.
     if (!window.mochaPhantomJS) {
       it('should move the playhead', function(done){
-        player.frame(function() {});
+        player.frame("x", "a", function() {});
         player.play();
         setTimeout(function() {
           assert(Math.abs(player.current().playhead() - 300) < 50);
@@ -281,33 +281,33 @@ describe('Player', function(){
   describe('framechange', function(){
     it('should dispatch on initial frame', function(done){
       player.addEventListener("framechange", function() { done() });
-      player.frame(function() {});
+      player.frame("x", "a", function() {});
     });
 
     it('should dispatch on next', function(done){
-      player.frame(function() {});
-      player.frame(function() {});
+      player.frame("x", "a", function() {});
+      player.frame("y", "b", function() {});
       player.addEventListener("framechange", function() { done() });
       player.next();
     });
 
     it('should dispatch on prev', function(done){
-      player.frame(function() {});
-      player.frame(function() {});
+      player.frame("x", "a", function() {});
+      player.frame("y", "b", function() {});
       player.next();
       player.addEventListener("framechange", function() { done() });
       player.prev();
     });
 
     it('should not dispatch on prev at first frame', function(){
-      player.frame(function() {});
+      player.frame("x", "a", function() {});
       player.addEventListener("framechange", function() { assert(false) });
       player.prev();
     });
 
     it('should not dispatch on next at last frame', function(){
-      player.frame(function() {});
-      player.frame(function() {});
+      player.frame("x", "a", function() {});
+      player.frame("y", "b", function() {});
       player.next();
       player.addEventListener("framechange", function() { assert(false) });
       player.next();

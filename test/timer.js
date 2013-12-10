@@ -9,7 +9,7 @@ describe('Timer', function(){
       frame = null;
 
   beforeEach(function() {
-    frame = new Frame(function() {});
+    frame = new Frame("x", "a", function() {});
   });
 
   describe('Timer()', function(){
