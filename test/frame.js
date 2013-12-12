@@ -101,6 +101,20 @@ describe('Frame', function(){
     });
   });
 
+  describe('#clearTimer()', function(){
+    it('should stop timer by reference', function(){
+      var timer = frame.timer(function () {}).delay(200);
+      frame.clearTimer(timer);
+      assert(!timer.running());
+    });
+
+    it('should stop timer by id', function(){
+      var timer = frame.timer(function () {}).delay(200);
+      frame.clearTimer(timer.id());
+      assert(!timer.running());
+    });
+  });
+
   describe('#reset()', function(){
     it('should rollback to specific snapshot', function(){
       var snapshot, value = "";

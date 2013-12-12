@@ -1,10 +1,13 @@
 describe('Set', function(){
 
-  var Set    = require('playback/lib/set')
-    , assert = require('assert')
-    , equals = require('equals');
+  var DataObject = require('playback/lib/data_object')
+    , Set        = require('playback/lib/set')
+    , assert     = require('assert')
+    , equals     = require('equals');
 
   function TestClass(id, value) { this.id = id; this.value = value; }
+  TestClass.prototype = new DataObject();
+  TestClass.prototype.constructor = TestClass;
   TestClass.prototype.clone = function() { var clone = new TestClass(); clone.id = this.id; clone.value = this.value; return clone; }
 
 

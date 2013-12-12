@@ -20,11 +20,12 @@
   "main": "lib/index.js",
   "scripts": [
     "lib/ease.js",
-    "lib/index.js",
+    "lib/data_object.js",
     "lib/event.js",
     "lib/event_dispatcher.js",
     "lib/frame.js",
     "lib/functor.js",
+    "lib/index.js",
     "lib/layout.js",
     "lib/model.js",
     "lib/playback.js",
