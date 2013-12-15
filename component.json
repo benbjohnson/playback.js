@@ -2,7 +2,7 @@
   "name": "playback",
   "repo": "benbjohnson/playback.js",
   "description": "A library for dynamic timeline playback",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "keywords": [],
   "dependencies": {
     "ianstormtaylor/is": "0.0.5",

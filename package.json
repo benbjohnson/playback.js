@@ -1,6 +1,6 @@
 {
   "name": "playback.js",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "author": "Ben Johnson <benbjohnson@yahoo.com>",
   "description": "A library for dynamic timeline playback",
   "license": "MIT",
