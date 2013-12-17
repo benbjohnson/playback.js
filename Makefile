@@ -10,9 +10,9 @@ build: components lib/*.js
 components: component.json
 	@component install --dev
 
-playback.js: components lib/*.js
-	$(COMPONENT) build --standalone playback --out . --name playback
-	$(UGLIFY) playback.js --output playback.min.js
+dist: components lib/*.js
+	$(COMPONENT) build --standalone playback --out dist --name playback
+	$(UGLIFY) dist/playback.js --output dist/playback.min.js
 
 test: lint build
 	$(PHANTOM) test/index.html
@@ -23,4 +23,4 @@ lint:
 clean:
 	rm -fr build components template.js
 
-.PHONY: clean test
+.PHONY: clean dist test

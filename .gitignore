@@ -1,6 +1,5 @@
-components
-build
-node_modules
 .DS_Store
-playback.js
-playback.min.js
+/components
+/build
+/node_modules
+/dist

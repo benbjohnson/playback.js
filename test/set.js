@@ -28,6 +28,14 @@ describe('Set', function(){
       set.add({id:1});
       assert(set.find(2) === null);
     });
+
+    it('should find using a filter function', function(){
+      set.add({id:1});
+      set.add({id:2});
+      set.add({id:3});
+      set.add({id:4});
+      assert(set.find(function(item) { if (item.id === 2) return true; }).id === 2);
+    });
   });
 
   describe('#contains()', function(){
