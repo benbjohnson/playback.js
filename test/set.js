@@ -5,10 +5,16 @@ describe('Set', function(){
     , assert     = require('assert')
     , equals     = require('equals');
 
-  function TestClass(id, value) { this.id = id; this.value = value; }
+  function TestClass(model, id, value) {
+      DataObject.call(this, model);
+      this.id = id;
+      this.value = value;
+  }
   TestClass.prototype = new DataObject();
   TestClass.prototype.constructor = TestClass;
-  TestClass.prototype.clone = function() { var clone = new TestClass(); clone.id = this.id; clone.value = this.value; return clone; }
+  TestClass.prototype.clone = function(model) {
+      return new TestClass(model, this.id, this.value);
+  }
 
 
   var set = null;
@@ -118,8 +124,8 @@ describe('Set', function(){
 
   describe('#clone()', function(){
     it('should clone all elements', function(){
-      set.add(new TestClass(1, 100));
-      set.add(new TestClass(2, 200));
+      set.add(new TestClass(set.model(), 1, 100));
+      set.add(new TestClass(set.model(), 2, 200));
       var clone = set.clone();
       set.find(1).value = 300;
       assert(clone.size() === 2);

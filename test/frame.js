@@ -102,9 +102,10 @@ describe('Frame', function(){
   });
 
   describe('#clearTimer()', function(){
-    it('should stop timer by reference', function(){
-      var timer = frame.timer(function () {}).delay(200);
-      frame.clearTimer(timer);
+    it('should stop timer by reference with same id', function(){
+      var timer = frame.timer(function () {}).delay(200),
+          clone = timer.clone();
+      frame.clearTimer(clone);
       assert(!timer.running());
     });
 
