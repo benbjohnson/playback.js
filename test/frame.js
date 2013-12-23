@@ -85,6 +85,17 @@ describe('Frame', function(){
       assert(frame.playhead() == 200);
       assert(frame.duration() == 200);
     });
+
+    it('should not progress playhead if player has stopped', function(done){
+      var player = new Player();
+      frame.player(player);
+      frame.after(50, function() { player.pause(); })
+        .after(20, function() { done(); });
+      frame.playhead(100);
+      assert.equal(50, frame.playhead());
+      player.play();
+      frame.playhead(100);
+    });
   });
 
   describe('#timer()', function(){

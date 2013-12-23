@@ -2,8 +2,10 @@ describe('Timer', function(){
 
   var Timer   = require('playback/lib/timer')
     , Frame   = require('playback/lib/frame')
-    , assert   = require('assert')
-    , equals   = require('equals');
+    , Event   = require('playback/lib/event')
+    , EventDispatcher = require('playback/lib/event_dispatcher')
+    , assert  = require('assert')
+    , equals  = require('equals');
 
   var timer = null,
       frame = null;
@@ -74,6 +76,39 @@ describe('Timer', function(){
       frame.playhead(99);
       frame.playhead(1000);
       assert.equal(count, 3);
+    });
+  });
+
+  describe('#at()', function(){
+    it('should execute timer when an event happens on a target', function(done){
+      var target = new EventDispatcher();
+      var t0 = frame.timer(function() {}).startTime(200);
+      var t1 = t0.at(target, "myEvent", function() {});
+      var t2 = t1.after(100, function() { done(); });
+      frame.playhead(201);
+      target.dispatchEvent(new Event("myEvent"));
+      frame.playhead(frame.playhead() + 101);
+    });
+
+    it('should continue to receive events if returning false', function(done){
+      var counter = 0, finished = false;
+      var target = new EventDispatcher();
+      var t0 = frame.timer(function() {}).startTime(200);
+      var t1 = t0.at(target, "myEvent", function() { return counter++ > 2; });
+      var t2 = t1.after(100, function() { finished = true; done(); });
+      frame.playhead(201);
+      target.dispatchEvent(new Event("myEvent"));
+      frame.playhead(frame.playhead() + 101);
+      assert(!finished);
+      target.dispatchEvent(new Event("myEvent"));
+      frame.playhead(frame.playhead() + 101);
+      assert(!finished);
+      target.dispatchEvent(new Event("myEvent"));
+      frame.playhead(frame.playhead() + 101);
+      assert(!finished);
+      target.dispatchEvent(new Event("myEvent"));
+      frame.playhead(frame.playhead() + 101);
+      assert(finished);
     });
   });
 
