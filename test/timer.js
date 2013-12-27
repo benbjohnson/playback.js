@@ -54,9 +54,9 @@ describe('Timer', function(){
 
     it('should offset the new timer based on the first timer end time', function(){
       var t0 = frame.timer(function() {}).startTime(200);
-      var t1 = t0.then(function() {}).delay(300);
-      frame.playhead(301);
-      assert.equal(501, t1.startTime());
+      var t1 = t0.then(function() {}).delay(400);
+      frame.playhead(300);
+      assert.equal(600, t1.startTime());
     });
   });
 
@@ -64,8 +64,8 @@ describe('Timer', function(){
     it('should offset the new timer based on the first timer', function(){
       var t0 = frame.timer(function() {}).startTime(200);
       var t1 = t0.after(300, function() {});
-      frame.playhead(201);
-      assert.equal(501, t1.startTime());
+      frame.playhead(200);
+      assert.equal(500, t1.startTime());
     });
 
     it('should execute all timers even if start times are skipped', function(){
@@ -85,9 +85,9 @@ describe('Timer', function(){
       var t0 = frame.timer(function() {}).startTime(200);
       var t1 = t0.at(target, "myEvent", function() {});
       var t2 = t1.after(100, function() { done(); });
-      frame.playhead(201);
+      frame.playhead(200);
       target.dispatchEvent(new Event("myEvent"));
-      frame.playhead(frame.playhead() + 101);
+      frame.playhead(frame.playhead() + 100);
     });
 
     it('should continue to receive events if returning false', function(done){

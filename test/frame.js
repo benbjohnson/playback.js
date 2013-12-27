@@ -44,13 +44,6 @@ describe('Frame', function(){
       assert(frame.playhead() == 100);
     });
 
-    it('should increase the duration', function(){
-      frame.playhead(100);
-      frame.playhead(200);
-      frame.playhead(150);
-      assert(frame.duration() == 200);
-    });
-
     it('should execute timers between playhead changes', function(){
       var log = [];
       frame.timer(function() { log.push([0, frame.playhead()].join(":"))}).interval(100);
@@ -58,15 +51,17 @@ describe('Frame', function(){
       frame.timer(function() { log.push([1, frame.playhead()].join(":"))}).interval(40);
       frame.timer(function() { log.push([2, frame.playhead()].join(":"))}).interval(50);
       frame.playhead(200);
-      assert(log.shift() === "0:100");
-      assert(log.shift() === "1:140");
-      assert(log.shift() === "2:150");
-      assert(log.shift() === "1:180");
-      assert(log.shift() === "0:200");
-      assert(log.shift() === "2:200");
-      assert(log.shift() === undefined);
-      assert(frame.playhead() == 200);
-      assert(frame.duration() == 200);
+      assert.equal("0:0", log.shift());
+      assert.equal("0:100", log.shift());
+      assert.equal("1:100", log.shift());
+      assert.equal("2:100", log.shift());
+      assert.equal("1:140", log.shift());
+      assert.equal("2:150", log.shift());
+      assert.equal("1:180", log.shift());
+      assert.equal("0:200", log.shift());
+      assert.equal("2:200", log.shift());
+      assert.equal(undefined, log.shift());
+      assert.equal(200, frame.playhead());
     });
 
     it('should not execute timers after they have stopped', function(){
@@ -79,15 +74,16 @@ describe('Frame', function(){
         }
       }).interval(20);
       frame.playhead(200);
-      assert(log.shift() === "0:120");
-      assert(log.shift() === "0:140");
-      assert(log.shift() === undefined);
-      assert(frame.playhead() == 200);
-      assert(frame.duration() == 200);
+      assert.equal("0:100", log.shift());
+      assert.equal("0:120", log.shift());
+      assert.equal("0:140", log.shift());
+      assert.equal(undefined, log.shift());
+      assert.equal(200, frame.playhead());
     });
 
-    it('should not progress playhead if player has stopped', function(done){
+    it('should not progress playhead if player has paused', function(done){
       var player = new Player();
+      player.play();
       frame.player(player);
       frame.after(50, function() { player.pause(); })
         .after(20, function() { done(); });
@@ -157,12 +153,6 @@ describe('Frame', function(){
       frame.playhead(100);
       frame.reset();
       assert(frame.playhead() === 0);
-    });
-
-    it('should reset duration', function(){
-      frame.playhead(100);
-      frame.reset();
-      assert(frame.duration() === 0);
     });
 
     it('should clear timers', function(){
