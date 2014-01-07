@@ -3,9 +3,13 @@ Playback.js
 
 ## Overview
 
-The playback.js library is primarily used for deterministic timers. This is especially useful when creating simulation-based presentations. Deterministic timing ensures that timers will always execute in an exact order and will not skip over an execution simply because a frame took too long.
+Using data to tell a story is a powerful tool. However, most data visualizations simply display a chart and expect users to figure out the meaning. We can do better.
 
-For an example, of playback.js in action check out the [Raft Distributed Consensus Protocol visualization](http://thesecretlivesofdata.com/raft/) on the [Secret Lives of Data](https://github.com/benbjohnson/thesecretlivesofdata) project.
+The idea of Playback.js is to guide users through the data story. Sometimes you want to be in control and step them through parts of a story. Other times you may want to let the user control the story and explore. Playback.js aims to give you the tools to do this.
+
+The library is a collection of tools for easily and safely providing this storytelling capability. The most important tool is a player that allows you to control the flow of time using deterministic timers. Normal wall clock timers (e.g. `setTimeout()`) don't provide many guarantees about when they will execute. They can skip over executions and are difficult to chain. Playback.js timers guarantee their ordering and guarantee how many times they will execute relative to the Playback.js timer.
+
+For an example of playback.js in action check out the [Raft Distributed Consensus Protocol visualization](http://thesecretlivesofdata.com/raft/) on the [Secret Lives of Data](https://github.com/benbjohnson/thesecretlivesofdata) project.
 
 
 ## Architecture
