@@ -27,6 +27,8 @@ Playback.js is broken up into a few classes:
 
 ## Usage
 
+### Creating the Player
+
 To use Playback.js, simply create a new player to manage your timeline:
 
 ```js
@@ -34,6 +36,9 @@ var player = playback.player();
 ```
 
 The player maintains its own playhead that can move independent of the wall clock. The playhead will move forward on each animation frame execute any timers that occurred between the previous and current playhead positions. The playhead can stop prematurely if one of the timers sets the player's rate to zero.
+
+
+### Setting up the Model
 
 The player needs a model to run the simulation off of so let's create a model subclass and add it to the player:
 
@@ -48,6 +53,9 @@ MyModel.prototype.constructor = MyModel;
 
 player.model(new MyModel());
 ```
+
+
+### Separate your simulation into frames
 
 Once the player is ready, simply add frames to it. A frame has an id, title and function associated with it:
 
