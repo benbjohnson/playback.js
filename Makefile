@@ -5,10 +5,10 @@ PHANTOM = node_modules/.bin/mocha-phantomjs
 LINT = node_modules/.bin/jslint
 
 build: components lib/*.js
-	@component build --dev
+	$(COMPONENT) build --dev
 
 components: component.json
-	@component install --dev
+	$(COMPONENT) install --dev
 
 dist: components lib/*.js
 	$(COMPONENT) build --standalone playback --out dist --name playback
